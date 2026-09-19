@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>✨ A Surprise for Prerna ✨</title>
+  <style>
+    /* ---------- RESET & GLOBAL ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at 20% 30%, #fff0f7 0%, #f3e5ff 60%, #d9d0ff 100%);
+      overflow-x: hidden;
+      position: relative;
+      scroll-behavior: smooth;
+    }
+
+    /* floating particles layer */
+    .particle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    /* ---------- MAIN CONTAINER ---------- */
+    .main-container {
+      position: relative;
+      z-index: 10;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 1.2rem 4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    /* all sections hidden except welcome, but we'll toggle via JS */
+    .section {
+      width: 100%;
+      display: none;
+      animation: fadeSlide 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    @keyframes fadeSlide {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ---------- TYPOGRAPHY & GLASS CARDS ---------- */
+    h1, h2, h3 {
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      text-shadow: 0 4px 12px rgba(255, 200, 230, 0.6);
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-radius: 40px;
+      padding: 2.2rem 1.8rem;
+      box-shadow: 0 25px 50px -8px rgba(170, 120, 220, 0.25), 0 0 0 1.5px rgba(255, 255, 255, 0.6) inset, 0 0 30px rgba(220, 180, 255, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    /* buttons */
+    .glow-btn {
+      background: linear-gradient(135deg, #ff9ecb, #b785f0, #9f7aea);
+      border: none;
+      padding: 1.1rem 2.5rem;
+      border-radius: 80px;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: white;
+      letter-spacing: 0.5px;
+      box-shadow: 0 10px 25px -5px #c084fc, 0 0 20px #f9a8d4, 0 0 8px #fff9;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(8px);
+      margin: 0.75rem 0.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glow-btn:hover {
+      transform: scale(1.05) translateY(-3px);
+      box-shadow: 0 20px 35px -5px #d8b4fe, 0 0 35px #f9a8d4, 0 0 15px #fff;
+      background: linear-gradient(135deg, #ffb0d9, #c49cf5, #b18cf2);
+    }
+
+    .glow-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* dodging button styles */
+    #dodgeGiftBtn {
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      z-index: 20;
+    }
+
+    /* section 1 */
+    .welcome-title {
+      font-size: clamp(3.2rem, 12vw, 5.5rem);
+      background: linear-gradient(135deg, #d946ef, #a855f7, #ec4899);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 30px rgba(236, 72, 153, 0.5);
+      animation: softPulse 3s infinite alternate;
+      margin-bottom: 0.25rem;
+    }
+
+    @keyframes softPulse {
+      0% { text-shadow: 0 0 20px #f0abfc, 0 0 40px #e9d5ff; }
+      100% { text-shadow: 0 0 35px #f9a8d4, 0 0 70px #d8b4fe; }
+    }
+
+    .welcome-sub {
+      font-size: clamp(1.1rem, 4vw, 1.7rem);
+      color: #6b3f8a;
+      font-weight: 400;
+      margin-bottom: 2rem;
+      letter-spacing: 0.3px;
+    }
+
+    /* birthday section */
+    .birthday-headline {
+      font-size: clamp(2.2rem, 8vw, 4rem);
+      background: linear-gradient(135deg, #f472b6, #c084fc, #fbbf24);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 1rem;
+    }
+
+    .birthday-msg {
+      font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+      color: #4a2c5e;
+      background: rgba(255, 240, 250, 0.6);
+      padding: 1.2rem 1.5rem;
+      border-radius: 30px;
+      border-left: 8px solid #f0abfc;
+      margin: 1.8rem 0;
+      font-weight: 500;
+      box-shadow: 0 8px 20px rgba(220, 180, 255, 0.3);
+    }
+
+    /* balloons & decorative floats */
+    .balloon {
+      position: absolute;
+      font-size: 2.5rem;
+      animation: floatUp 8s infinite linear;
+      opacity: 0.8;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.9; }
+      90% { opacity: 0.9; }
+      100% { transform: translateY(-90vh) rotate(20deg); opacity: 0; }
+    }
+
+    /* compliments card */
+    .compliment-card {
+      min-height: 160px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .compliment-text {
+      font-size: clamp(1.4rem, 5vw, 2rem);
+      font-weight: 500;
+      color: #3d1f4e;
+      transition: all 0.4s ease;
+      padding: 0.8rem 1rem;
+      border-radius: 30px;
+      background: rgba(255, 240, 255, 0.4);
+      line-height: 1.4;
+      text-shadow: 0 2px 10px #fbcfe8;
+    }
+
+    .compliment-animate {
+      animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.8) translateY(15px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* question area */
+    .question-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.8rem;
+    }
+
+    /* final message */
+    .final-message {
+      font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+      line-height: 1.7;
+      color: #36204a;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.5);
+      padding: 1.8rem 2rem;
+      border-radius: 35px;
+      border: 1px solid #f0c0ff;
+      box-shadow: 0 0 40px rgba(216, 180, 254, 0.5);
+    }
+
+    /* modal (fullscreen surprise) */
+    .surprise-modal {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at 30% 40%, #fde2ff, #e9d5ff, #d8b4fe);
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1.5rem;
+      animation: modalFade 0.5s ease;
+    }
+
+    .surprise-modal.show {
+      display: flex;
+    }
+
+    @keyframes modalFade {
+      from { opacity: 0; backdrop-filter: blur(0); }
+      to { opacity: 1; backdrop-filter: blur(10px); }
+    }
+
+    .modal-title {
+      font-size: clamp(2.5rem, 12vw, 5rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, #e879f9, #c084fc, #fbbf24);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: glowPulse 1.8s infinite alternate;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
+    }
+
+    @keyframes glowPulse {
+      from { filter: drop-shadow(0 0 15px #f0abfc); }
+      to { filter: drop-shadow(0 0 40px #c084fc); }
+    }
+
+    .modal-sub {
+      font-size: clamp(1.4rem, 6vw, 2.2rem);
+      color: #5a2e7a;
+      font-weight: 500;
+      background: rgba(255, 255, 255, 0.5);
+      padding: 1rem 2.2rem;
+      border-radius: 60px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+
+    /* music button */
+    .music-toggle {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      z-index: 500;
+      background: rgba(255, 220, 250, 0.7);
+      backdrop-filter: blur(15px);
+      border: 1px solid white;
+      border-radius: 60px;
+      padding: 0.8rem 1.6rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #6b21a5;
+      box-shadow: 0 8px 30px rgba(192, 132, 252, 0.6);
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .music-toggle:hover {
+      background: rgba(255, 240, 255, 0.9);
+      box-shadow: 0 12px 40px #c084fc;
+      transform: scale(1.05);
+    }
+
+    /* confetti canvas */
+    #confetti-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 900;
+    }
+
+    /* utility */
+    .hidden { display: none; }
+    .text-glow { text-shadow: 0 0 15px #f9a8d4, 0 0 30px #d8b4fe; }
+    .mt-3 { margin-top: 1.5rem; }
+    .mb-2 { margin-bottom: 0.8rem; }
+    .flex-center { display: flex; flex-direction: column; align-items: center; }
+
+    /* responsive */
+    @media (max-width: 480px) {
+      .glass-card { padding: 1.8rem 1rem; }
+      .glow-btn { font-size: 1.1rem; padding: 0.9rem 1.6rem; }
+      .music-toggle { padding: 0.6rem 1.2rem; font-size: 1rem; bottom: 15px; right: 15px; }
+    }
+
+    /* floating hearts (dynamic via JS) */
+    .heart-float {
+      position: fixed;
+      color: #ff8ab3;
+      font-size: 1.8rem;
+      z-index: 8;
+      pointer-events: none;
+      animation: floatHeart 6s infinite ease-in-out;
+      opacity: 0.5;
+    }
+
+    @keyframes floatHeart {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+      50% { transform: translateY(-25px) rotate(10deg); opacity: 0.8; }
+      100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Canvas for particles (background) and confetti -->
+  <canvas id="particleCanvas" class="particle-canvas"></canvas>
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Music toggle -->
+  <button class="music-toggle" id="musicBtn" aria-label="Toggle music">🎵 Music</button>
+
+  <!-- Main container -->
+  <div class="main-container">
+
+    <!-- Section 1: Welcome -->
+    <section id="section-welcome" class="section active">
+      <div class="glass-card" style="max-width: 900px; margin: 0 auto;">
+        <h1 class="welcome-title">Hey Prerna! 💗</h1>
+        <p class="welcome-sub">Someone has a little surprise for you...</p>
+        <button class="glow-btn" id="openSurpriseBtn">Open Your Surprise ✨</button>
+      </div>
+    </section>
+
+    <!-- Section 2: Birthday Celebration -->
+    <section id="section-birthday" class="section">
+      <div class="glass-card" style="max-width: 900px; margin: 0 auto;">
+        <h2 class="birthday-headline">Happy Birthday, Prerna! 🎂✨</h2>
+        <div class="birthday-msg">
+          "Today isn't just another day... it's the day someone as wonderful as you came into this world. 💕"
+        </div>
+        <button class="glow-btn" id="moreBtn">There's More 👀</button>
+      </div>
+    </section>
+
+    <!-- Section 3: Compliments -->
+    <section id="section-compliments" class="section">
+      <div class="glass-card compliment-card" style="max-width: 800px; margin: 0 auto;">
+        <h2 style="font-size: 1.8rem; color: #6b21a5; margin-bottom: 0.5rem;">A Few Things About You 💫</h2>
+        <div id="complimentDisplay" class="compliment-text">✨ You're amazing ✨</div>
+        <button class="glow-btn" id="nextComplimentBtn" style="margin-top: 1.5rem;">Tell Me More 💕</button>
+      </div>
+    </section>
+
+    <!-- Section 4: Interactive Question -->
+    <section id="section-question" class="section">
+      <div class="glass-card" style="max-width: 800px; margin: 0 auto;">
+        <h2 style="font-size: 2rem; color: #7e22ce;">Okay Prerna... one important question 👀</h2>
+        <p style="font-size: 1.6rem; margin: 1.5rem 0; font-weight: 500; color: #3b1e4b;">Are you ready for your birthday surprise?</p>
+        <div class="question-buttons">
+          <button class="glow-btn" id="yesBtn">YESSS! 💗</button>
+          <button class="glow-btn" id="ofCourseBtn">Of Course! ✨</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Gift Request (NEW) -->
+    <section id="section-gift" class="section">
+      <div class="glass-card" style="max-width: 800px; margin: 0 auto; position: relative; overflow: visible;">
+        <h2 style="font-size: 2rem; color: #a21caf; margin-bottom: 0.5rem;">Wait, Prerna... 🎁</h2>
+        <p style="font-size: 1.5rem; margin: 1.2rem 0 1.8rem; font-weight: 500; color: #3b1e4b;">
+          Do you want your birthday gift? 💝
+        </p>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; min-height: 80px; position: relative;">
+          <button class="glow-btn" id="wantGiftBtn">I Want Gift 🎁</button>
+          <button class="glow-btn" id="dodgeGiftBtn">I Don't Want Gift 🙅‍♀️</button>
+        </div>
+        <p id="dodgeMessage" style="margin-top: 1rem; font-size: 1rem; color: #9333ea; opacity: 0; transition: opacity 0.3s; font-style: italic;"></p>
+      </div>
+    </section>
+
+    <!-- Section 6: Special Message -->
+    <section id="section-message" class="section">
+      <div class="glass-card" style="max-width: 900px; margin: 0 auto;">
+        <h2 style="font-size: 2.2rem; color: #a21caf; margin-bottom: 1rem;">One Last Thing...</h2>
+        <div class="final-message">
+          May this year bring you countless reasons to smile, people who genuinely value you, dreams that turn into reality, and moments you'll remember forever.<br><br>
+          Keep smiling, keep shining and keep being the wonderful person you are. 🌷<br><br>
+          <strong>Happy Birthday once again, Prerna! 🎂💖</strong>
+        </div>
+        <button class="glow-btn mt-3" id="finalSurpriseBtn">Click Me For One Last Surprise 🎁</button>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Surprise Modal -->
+  <div id="surpriseModal" class="surprise-modal">
+    <div>
+      <div class="modal-title">PRERNA, YOU'RE A STAR! ⭐💗</div>
+      <div class="modal-sub">Happy Birthday, beautiful! 🎂✨</div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      "use strict";
+
+      // ------------- 1. SECTION NAVIGATION -------------
+      const sections = {
+        welcome: document.getElementById('section-welcome'),
+        birthday: document.getElementById('section-birthday'),
+        compliments: document.getElementById('section-compliments'),
+        question: document.getElementById('section-question'),
+        gift: document.getElementById('section-gift'),
+        message: document.getElementById('section-message')
+      };
+
+      function showSection(sectionId) {
+        Object.values(sections).forEach(sec => sec.classList.remove('active'));
+        if (sections[sectionId]) {
+          sections[sectionId].classList.add('active');
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // ------------- 2. BUTTON HANDLERS -------------
+      document.getElementById('openSurpriseBtn').addEventListener('click', () => {
+        showSection('birthday');
+        startBalloonsAndSparkles();
+        fireConfetti(60);
+      });
+
+      document.getElementById('moreBtn').addEventListener('click', () => {
+        showSection('compliments');
+        currentComplimentIndex = 0;
+        complimentFinished = false;
+        updateCompliment(0, true);
+      });
+
+      // Compliments logic
+      const compliments = [
+        "Your smile can genuinely brighten someone's day. ✨",
+        "You have a really beautiful energy around you. 💗",
+        "You're the kind of person people feel lucky to have around.",
+        "You deserve all the happiness, love and success in the world.",
+        "And honestly... you're pretty amazing, Prerna. 🌸"
+      ];
+      let currentComplimentIndex = 0;
+      let complimentFinished = false;
+      const complimentDisplay = document.getElementById('complimentDisplay');
+
+      function updateCompliment(index, animate = true) {
+        complimentDisplay.textContent = compliments[index];
+        if (animate) {
+          complimentDisplay.classList.remove('compliment-animate');
+          void complimentDisplay.offsetWidth;
+          complimentDisplay.classList.add('compliment-animate');
+        }
+      }
+
+      document.getElementById('nextComplimentBtn').addEventListener('click', function() {
+        if (currentComplimentIndex === compliments.length - 1 && complimentFinished) {
+          // After the last compliment is shown, move to the question section
+          showSection('question');
+          complimentFinished = false;
+          return;
+        }
+        currentComplimentIndex = (currentComplimentIndex + 1) % compliments.length;
+        updateCompliment(currentComplimentIndex, true);
+        if (currentComplimentIndex === compliments.length - 1) {
+          complimentFinished = true;
+        } else {
+          complimentFinished = false;
+        }
+      });
+
+      // Question buttons -> move to gift section & confetti
+      function handleQuestionYes() {
+        showSection('gift');
+        fireConfetti(120);
+        setTimeout(() => fireConfetti(80), 300);
+      }
+
+      document.getElementById('yesBtn').addEventListener('click', handleQuestionYes);
+      document.getElementById('ofCourseBtn').addEventListener('click', handleQuestionYes);
+
+      // ------------- 3. GIFT SECTION DODGE LOGIC (NEW) -------------
+      const wantGiftBtn = document.getElementById('wantGiftBtn');
+      const dodgeGiftBtn = document.getElementById('dodgeGiftBtn');
+      const dodgeMessage = document.getElementById('dodgeMessage');
+
+      // Messages that show when user tries to click "I Don't Want Gift"
+      const dodgeMessages = [
+        "Nice try! 😏 You're getting a gift anyway...",
+        "Nope! That button doesn't work 😜",
+        "Catch me if you can! 🏃‍♀️💨",
+        "You can't escape your gift, Prerna! 🎁",
+        "Try again... or just accept the gift 💗",
+        "The gift is inevitable! ✨",
+        "That's not an option today 😌",
+        "Hehe, you really thought! 😄"
+      ];
+
+      // Helper: move the dodge button to a random position
+      function dodgeButton() {
+        // Get the card container bounds so we can move the button within it
+        const card = dodgeGiftBtn.closest('.glass-card');
+        const cardRect = card.getBoundingClientRect();
+        const btnRect = dodgeGiftBtn.getBoundingClientRect();
+
+        // Available space inside the card (with padding)
+        const padding = 20;
+        const maxX = cardRect.width - btnRect.width - padding;
+        const maxY = cardRect.height - btnRect.height - padding;
+
+        // Random position within the card
+        const randomX = Math.max(padding, Math.random() * maxX);
+        const randomY = Math.max(padding, Math.random() * maxY);
+
+        // Apply position relative to the card
+        // We use absolute positioning relative to the card
+        dodgeGiftBtn.style.position = 'absolute';
+        dodgeGiftBtn.style.left = randomX + 'px';
+        dodgeGiftBtn.style.top = randomY + 'px';
+        dodgeGiftBtn.style.margin = '0';
+
+        // Show a random dodge message
+        const msg = dodgeMessages[Math.floor(Math.random() * dodgeMessages.length)];
+        dodgeMessage.textContent = msg;
+        dodgeMessage.style.opacity = '1';
+
+        // Fade out the message after 1.5 seconds
+        clearTimeout(dodgeMessage._timeout);
+        dodgeMessage._timeout = setTimeout(() => {
+          dodgeMessage.style.opacity = '0';
+        }, 1500);
+      }
+
+      // Prevent the dodge button from being clicked (dodge on hover/click attempt)
+      dodgeGiftBtn.addEventListener('mouseenter', dodgeButton);
+      dodgeGiftBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        dodgeButton();
+      });
+      // Also dodge on touch for mobile
+      dodgeGiftBtn.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        dodgeButton();
+      }, { passive: false });
+
+      // Handle "I Want Gift" button
+      wantGiftBtn.addEventListener('click', () => {
+        // Celebrate and move to the message section
+        fireConfetti(180);
+        spawnHeartsAndStars(20);
+        showSection('message');
+      });
+
+      // ------------- 4. FINAL SURPRISE BUTTON -------------
+      document.getElementById('finalSurpriseBtn').addEventListener('click', () => {
+        const modal = document.getElementById('surpriseModal');
+        modal.classList.add('show');
+        fireConfetti(250);
+        spawnHeartsAndStars(30);
+        modal.addEventListener('click', () => {
+          modal.classList.remove('show');
+        });
+      });
+
+      // ------------- 5. CONFETTI (no library) -------------
+      const confettiCanvas = document.getElementById('confetti-canvas');
+      const ctx = confettiCanvas.getContext('2d');
+      let confettiParticles = [];
+      let animationFrame = null;
+
+      function resizeConfettiCanvas() {
+        confettiCanvas.width = window.innerWidth;
+        confettiCanvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resizeConfettiCanvas);
+      resizeConfettiCanvas();
+
+      function fireConfetti(count = 100) {
+        for (let i = 0; i < count; i++) {
+          confettiParticles.push({
+            x: Math.random() * confettiCanvas.width,
+            y: Math.random() * confettiCanvas.height * 0.3,
+            size: Math.random() * 8 + 4,
+            speedY: Math.random() * 5 + 3,
+            speedX: (Math.random() - 0.5) * 4,
+            color: `hsl(${Math.random() * 60 + 280}, 80%, 70%)`,
+            rotation: Math.random() * 360,
+            rotSpeed: (Math.random() - 0.5) * 8,
+            opacity: 1
+          });
+        }
+        if (!animationFrame) {
+          animationFrame = requestAnimationFrame(updateConfetti);
+        }
+      }
+
+      function updateConfetti() {
+        ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+        for (let i = confettiParticles.length - 1; i >= 0; i--) {
+          const p = confettiParticles[i];
+          p.y += p.speedY;
+          p.x += p.speedX;
+          p.rotation += p.rotSpeed;
+          p.opacity -= 0.008;
+          if (p.y > confettiCanvas.height + 50 || p.opacity <= 0) {
+            confettiParticles.splice(i, 1);
+            continue;
+          }
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rotation * Math.PI / 180);
+          ctx.globalAlpha = p.opacity;
+          ctx.fillStyle = p.color;
+          ctx.shadowColor = '#f0abfc';
+          ctx.shadowBlur = 12;
+          ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size * 0.6);
+          ctx.restore();
+        }
+        if (confettiParticles.length === 0) {
+          cancelAnimationFrame(animationFrame);
+          animationFrame = null;
+          ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+        } else {
+          animationFrame = requestAnimationFrame(updateConfetti);
+        }
+      }
+
+      // ------------- 6. BACKGROUND PARTICLES -------------
+      const particleCanvas = document.getElementById('particleCanvas');
+      const pCtx = particleCanvas.getContext('2d');
+      let bgParticles = [];
+
+      function resizeParticleCanvas() {
+        particleCanvas.width = window.innerWidth;
+        particleCanvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resizeParticleCanvas);
+      resizeParticleCanvas();
+
+      function initBgParticles() {
+        for (let i = 0; i < 45; i++) {
+          bgParticles.push({
+            x: Math.random() * particleCanvas.width,
+            y: Math.random() * particleCanvas.height,
+            size: Math.random() * 20 + 8,
+            speedX: (Math.random() - 0.5) * 0.4,
+            speedY: (Math.random() - 0.5) * 0.3 - 0.2,
+            char: Math.random() > 0.5 ? '✨' : '🌸',
+            opacity: Math.random() * 0.5 + 0.2
+          });
+        }
+      }
+      initBgParticles();
+
+      function animateBgParticles() {
+        pCtx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
+        bgParticles.forEach(p => {
+          p.x += p.speedX;
+          p.y += p.speedY;
+          if (p.x < -50) p.x = particleCanvas.width + 50;
+          if (p.x > particleCanvas.width + 50) p.x = -50;
+          if (p.y < -50) p.y = particleCanvas.height + 50;
+          if (p.y > particleCanvas.height + 50) p.y = -50;
+          pCtx.font = `${p.size}px "Segoe UI", "Poppins", sans-serif`;
+          pCtx.fillStyle = `rgba(255, 200, 240, ${p.opacity})`;
+          pCtx.shadowColor = '#d8b4fe';
+          pCtx.shadowBlur = 18;
+          pCtx.fillText(p.char, p.x, p.y);
+        });
+        requestAnimationFrame(animateBgParticles);
+      }
+      animateBgParticles();
+
+      // ------------- 7. BALLOONS ON BIRTHDAY SECTION -------------
+      function startBalloonsAndSparkles() {
+        document.querySelectorAll('.balloon').forEach(b => b.remove());
+        const balloonChars = ['🎈', '🎈', '🎈', '✨', '⭐', '💗', '🌸'];
+        for (let i = 0; i < 14; i++) {
+          const balloon = document.createElement('div');
+          balloon.className = 'balloon';
+          balloon.textContent = balloonChars[Math.floor(Math.random() * balloonChars.length)];
+          balloon.style.left = Math.random() * 100 + '%';
+          balloon.style.bottom = '-10%';
+          balloon.style.animationDelay = Math.random() * 5 + 's';
+          balloon.style.animationDuration = (Math.random() * 6 + 6) + 's';
+          balloon.style.fontSize = (Math.random() * 2 + 1.8) + 'rem';
+          document.body.appendChild(balloon);
+          setTimeout(() => balloon.remove(), 15000);
+        }
+      }
+
+      // ------------- 8. HEARTS & STARS IN MODAL -------------
+      function spawnHeartsAndStars(count) {
+        const chars = ['❤️', '✨', '⭐', '💖', '🌟', '💫', '🌸'];
+        for (let i = 0; i < count; i++) {
+          const el = document.createElement('div');
+          el.textContent = chars[Math.floor(Math.random() * chars.length)];
+          el.style.position = 'fixed';
+          el.style.left = Math.random() * 100 + '%';
+          el.style.top = Math.random() * 100 + '%';
+          el.style.fontSize = (Math.random() * 30 + 20) + 'px';
+          el.style.zIndex = '1001';
+          el.style.pointerEvents = 'none';
+          el.style.opacity = '0.9';
+          el.style.animation = `floatHeart ${Math.random() * 4 + 3}s infinite ease-in-out`;
+          el.style.animationDelay = Math.random() * 2 + 's';
+          document.body.appendChild(el);
+          setTimeout(() => el.remove(), 8000);
+        }
+      }
+
+      // ------------- 9. MUSIC (optional, no autoplay) -------------
+      const musicBtn = document.getElementById('musicBtn');
+      let audioContext = null;
+      let isMusicPlaying = false;
+      let melodyInterval = null;
+
+      function startMusic() {
+        if (!audioContext) {
+          audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioContext.state === 'suspended') {
+          audioContext.resume();
+        }
+
+        const notes = [523.25, 587.33, 659.25, 783.99, 880.00, 1046.50];
+        let index = 0;
+
+        if (melodyInterval) clearInterval(melodyInterval);
+        melodyInterval = setInterval(() => {
+          if (!isMusicPlaying) return;
+          const osc = audioContext.createOscillator();
+          const gain = audioContext.createGain();
+          osc.type = 'sine';
+          osc.frequency.value = notes[index % notes.length];
+          gain.gain.setValueAtTime(0.12, audioContext.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 1.2);
+          osc.connect(gain);
+          gain.connect(audioContext.destination);
+          osc.start();
+          osc.stop(audioContext.currentTime + 1.2);
+          index++;
+        }, 550);
+      }
+
+      function stopMusic() {
+        if (melodyInterval) {
+          clearInterval(melodyInterval);
+          melodyInterval = null;
+        }
+      }
+
+      musicBtn.addEventListener('click', () => {
+        if (!isMusicPlaying) {
+          isMusicPlaying = true;
+          musicBtn.innerHTML = '🎵 Music On';
+          startMusic();
+        } else {
+          isMusicPlaying = false;
+          musicBtn.innerHTML = '🎵 Music';
+          stopMusic();
+        }
+      });
+
+      // ------------- 10. INITIAL POLISH -------------
+      updateCompliment(0, false);
+
+      document.getElementById('surpriseModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+          this.classList.remove('show');
+        }
+      });
+
+      // Add floating hearts (static background)
+      for (let i = 0; i < 8; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart-float';
+        heart.textContent = '❤️';
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.top = Math.random() * 100 + '%';
+        heart.style.animationDelay = Math.random() * 5 + 's';
+        heart.style.fontSize = (Math.random() * 20 + 18) + 'px';
+        document.body.appendChild(heart);
+      }
+
+      // Make sure the dodge button is reset when entering the gift section
+      const origShowSection = showSection;
+      window.showSection = function(id) {
+        origShowSection(id);
+        if (id === 'gift') {
+          // Reset dodge button position to its original spot in the flex layout
+          dodgeGiftBtn.style.position = '';
+          dodgeGiftBtn.style.left = '';
+          dodgeGiftBtn.style.top = '';
+          dodgeGiftBtn.style.margin = '';
+          dodgeMessage.style.opacity = '0';
+        }
+      };
+      // Rebind buttons to use the new showSection wrapper
+      document.getElementById('openSurpriseBtn').onclick = () => window.showSection('birthday');
+      document.getElementById('moreBtn').onclick = () => window.showSection('compliments');
+      document.getElementById('yesBtn').onclick = () => window.showSection('gift');
+      document.getElementById('ofCourseBtn').onclick = () => window.showSection('gift');
+      document.getElementById('wantGiftBtn').onclick = () => {
+        fireConfetti(180);
+        spawnHeartsAndStars(20);
+        window.showSection('message');
+      };
+
+      // Re-add event listeners for the other buttons that were already set
+      // (We need to make sure the original listeners still work, but we replaced them.
+      //  Actually the original listeners were fine. To avoid conflicts, let's just
+      //  keep the original ones and not override showSection. I'll remove the override
+      //  and instead just reset the dodge button when the gift section becomes active.
+      //  Simpler: add a MutationObserver or just reset in the click handlers for yesBtn/ofCourseBtn.
+      //  Let's simplify: I'll remove the wrapper and just reset the dodge button directly
+      //  in the question button handlers.
+
+      // Since the code above already added the wrapper, let's correct it:
+      // Remove the wrapper and restore original functions.
+      // Actually, to keep it clean, I'll just leave it as is but ensure the original
+      // button handlers still work. The wrapper is fine because we re-assign onclick.
+      // But the original addEventListener calls are still attached, causing double firing.
+      // To prevent that, I'll remove the duplicate handlers added earlier for openSurpriseBtn,
+      // moreBtn, yesBtn, ofCourseBtn, wantGiftBtn and re-add them with the wrapper.
+
+      // Let's re-do the button bindings cleanly at the end:
+      // Remove all previously added listeners by cloning and replacing, but that's heavy.
+      // Instead, I'll just keep the original addEventListeners and add a reset for the dodge button
+      // in the showSection function. So let's undo the wrapper:
+      // I'll define a proper showSection that resets the dodge button.
+
+      // Final clean approach:
+      // Re-define showSection
+      const originalSections = sections;
+      window.showSection = function(sectionId) {
+        Object.values(originalSections).forEach(sec => sec.classList.remove('active'));
+        if (originalSections[sectionId]) {
+          originalSections[sectionId].classList.add('active');
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // Reset dodge button when entering gift section
+        if (sectionId === 'gift') {
+          const dodgeBtn = document.getElementById('dodgeGiftBtn');
+          dodgeBtn.style.position = '';
+          dodgeBtn.style.left = '';
+          dodgeBtn.style.top = '';
+          dodgeBtn.style.margin = '';
+          document.getElementById('dodgeMessage').style.opacity = '0';
+        }
+      };
+
+      // Now re-bind all buttons to use window.showSection
+      document.getElementById('openSurpriseBtn').onclick = () => {
+        window.showSection('birthday');
+        startBalloonsAndSparkles();
+        fireConfetti(60);
+      };
+      document.getElementById('moreBtn').onclick = () => {
+        window.showSection('compliments');
+        currentComplimentIndex = 0;
+        complimentFinished = false;
+        updateCompliment(0, true);
+      };
+      // Compliment next button already uses showSection('question') inside its handler,
+      // we need to update it to use window.showSection
+      document.getElementById('nextComplimentBtn').onclick = function() {
+        if (currentComplimentIndex === compliments.length - 1 && complimentFinished) {
+          window.showSection('question');
+          complimentFinished = false;
+          return;
+        }
+        currentComplimentIndex = (currentComplimentIndex + 1) % compliments.length;
+        updateCompliment(currentComplimentIndex, true);
+        if (currentComplimentIndex === compliments.length - 1) {
+          complimentFinished = true;
+        } else {
+          complimentFinished = false;
+        }
+      };
+      document.getElementById('yesBtn').onclick = () => {
+        window.showSection('gift');
+        fireConfetti(120);
+        setTimeout(() => fireConfetti(80), 300);
+      };
+      document.getElementById('ofCourseBtn').onclick = () => {
+        window.showSection('gift');
+        fireConfetti(120);
+        setTimeout(() => fireConfetti(80), 300);
+      };
+      document.getElementById('wantGiftBtn').onclick = () => {
+        fireConfetti(180);
+        spawnHeartsAndStars(20);
+        window.showSection('message');
+      };
+      document.getElementById('finalSurpriseBtn').onclick = () => {
+        const modal = document.getElementById('surpriseModal');
+        modal.classList.add('show');
+        fireConfetti(250);
+        spawnHeartsAndStars(30);
+        modal.addEventListener('click', () => {
+          modal.classList.remove('show');
+        });
+      };
+
+      // Remove the old addEventListener for these buttons to prevent double firing
+      // We'll clone and replace to remove all listeners
+      const buttonIds = ['openSurpriseBtn', 'moreBtn', 'nextComplimentBtn', 'yesBtn', 'ofCourseBtn', 'wantGiftBtn', 'finalSurpriseBtn'];
+      buttonIds.forEach(id => {
+        const oldEl = document.getElementById(id);
+        if (oldEl) {
+          const newEl = oldEl.cloneNode(true);
+          oldEl.parentNode.replaceChild(newEl, oldEl);
+        }
+      });
+
+      // Re-attach handlers to the cloned elements
+      document.getElementById('openSurpriseBtn').addEventListener('click', () => {
+        window.showSection('birthday');
+        startBalloonsAndSparkles();
+        fireConfetti(60);
+      });
+      document.getElementById('moreBtn').addEventListener('click', () => {
+        window.showSection('compliments');
+        currentComplimentIndex = 0;
+        complimentFinished = false;
+        updateCompliment(0, true);
+      });
+      document.getElementById('nextComplimentBtn').addEventListener('click', function() {
+        if (currentComplimentIndex === compliments.length - 1 && complimentFinished) {
+          window.showSection('question');
+          complimentFinished = false;
+          return;
+        }
+        currentComplimentIndex = (currentComplimentIndex + 1) % compliments.length;
+        updateCompliment(currentComplimentIndex, true);
+        if (currentComplimentIndex === compliments.length - 1) {
+          complimentFinished = true;
+        } else {
+          complimentFinished = false;
+        }
+      });
+      document.getElementById('yesBtn').addEventListener('click', () => {
+        window.showSection('gift');
+        fireConfetti(120);
+        setTimeout(() => fireConfetti(80), 300);
+      });
+      document.getElementById('ofCourseBtn').addEventListener('click', () => {
+        window.showSection('gift');
+        fireConfetti(120);
+        setTimeout(() => fireConfetti(80), 300);
+      });
+      document.getElementById('wantGiftBtn').addEventListener('click', () => {
+        fireConfetti(180);
+        spawnHeartsAndStars(20);
+        window.showSection('message');
+      });
+      document.getElementById('finalSurpriseBtn').addEventListener('click', () => {
+        const modal = document.getElementById('surpriseModal');
+        modal.classList.add('show');
+        fireConfetti(250);
+        spawnHeartsAndStars(30);
+        modal.addEventListener('click', () => {
+          modal.classList.remove('show');
+        });
+      });
+
+      // Also re-attach the dodge button listeners after cloning (since we didn't clone it)
+      // The dodge button wasn't cloned, so its listeners are intact.
+      // Just ensure it's still working.
+    })();
+  </script>
+</body>
+</html>
