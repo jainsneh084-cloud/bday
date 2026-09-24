@@ -1,963 +1,687 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Color Match · Gift Catch</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Sneha Suit · Diwali Lucky Draw</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 
-    body {
-      font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: linear-gradient(160deg, #FFE5F1 0%, #FFD1E8 30%, #F8C8DC 60%, #F3B6D3 100%);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      color: #4A1A4A;
-      overflow-x: hidden;
-      position: relative;
-    }
+  body {
+    font-family: 'Poppins','Segoe UI',system-ui,sans-serif;
+    background: linear-gradient(160deg,#FFF0F5 0%,#FFD9E8 40%,#FFC1DC 100%);
+    min-height:100vh;
+    display:flex; align-items:center; justify-content:center;
+    padding:16px; color:#4A1A4A;
+    overflow-x:hidden; position:relative;
+  }
 
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at 20% 20%, rgba(255, 180, 220, 0.5) 0%, transparent 55%),
-                  radial-gradient(circle at 80% 80%, rgba(230, 150, 210, 0.4) 0%, transparent 55%),
-                  radial-gradient(circle at 50% 50%, rgba(255, 200, 235, 0.3) 0%, transparent 70%);
-      animation: bgPulse 8s ease-in-out infinite alternate;
-      pointer-events: none;
-      z-index: 0;
-    }
+  body::before {
+    content:""; position:fixed; inset:0;
+    background: radial-gradient(circle at 20% 20%, rgba(255,180,220,0.6) 0%, transparent 55%),
+                radial-gradient(circle at 80% 80%, rgba(230,150,210,0.5) 0%, transparent 55%);
+    animation: bgPulse 8s ease-in-out infinite alternate;
+    pointer-events:none; z-index:0;
+  }
 
-    @keyframes bgPulse {
-      0% { opacity: 0.6; transform: scale(1); }
-      100% { opacity: 1; transform: scale(1.05); }
-    }
+  @keyframes bgPulse {
+    0%{opacity:.6; transform:scale(1);}
+    100%{opacity:1; transform:scale(1.05);}
+  }
 
-    .floating-heart {
-      position: fixed;
-      pointer-events: none;
-      z-index: 1;
-      opacity: 0.45;
-      animation: floatUp 12s linear infinite;
-      font-size: 20px;
-    }
+  .diya {
+    position:fixed; font-size:22px; pointer-events:none; z-index:1;
+    opacity:.5; animation: floatUp 12s linear infinite;
+  }
 
-    @keyframes floatUp {
-      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-      10% { opacity: 0.55; }
-      90% { opacity: 0.55; }
-      100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
-    }
+  @keyframes floatUp {
+    0%{transform:translateY(100vh) rotate(0deg); opacity:0;}
+    10%{opacity:.6;}
+    90%{opacity:.6;}
+    100%{transform:translateY(-10vh) rotate(360deg); opacity:0;}
+  }
 
-    .game-container {
-      width: 100%;
-      max-width: 410px;
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(22px);
-      -webkit-backdrop-filter: blur(22px);
-      border: 2px solid rgba(255, 150, 200, 0.7);
-      box-shadow: 0 30px 50px -20px rgba(180, 80, 140, 0.45),
-                  0 0 0 1px rgba(255, 220, 240, 0.8) inset,
-                  0 0 50px rgba(255, 130, 190, 0.35);
-      border-radius: 52px;
-      padding: 32px 24px 36px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: all 0.3s ease;
-      position: relative;
-      z-index: 2;
-      overflow: hidden;
-    }
+  .container {
+    width:100%; max-width:410px;
+    background: rgba(255,255,255,0.82);
+    backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);
+    border:2px solid rgba(255,150,200,0.75);
+    box-shadow: 0 30px 50px -20px rgba(180,80,140,0.5),
+                0 0 0 1px rgba(255,220,240,0.9) inset,
+                0 0 50px rgba(255,130,190,0.4);
+    border-radius: 52px;
+    padding: 32px 22px 36px;
+    display:flex; flex-direction:column; align-items:center;
+    position:relative; z-index:2; overflow:hidden;
+  }
 
-    .game-container::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: radial-gradient(circle at 15% 20%, rgba(255, 150, 200, 0.25) 0%, transparent 35%),
-                        radial-gradient(circle at 85% 75%, rgba(230, 130, 200, 0.2) 0%, transparent 40%),
-                        repeating-linear-gradient(45deg, rgba(255, 150, 200, 0.06) 0px, rgba(255, 150, 200, 0.06) 2px, transparent 2px, transparent 12px);
-      pointer-events: none;
-    }
+  .content { width:100%; display:flex; flex-direction:column; align-items:center; text-align:center; }
 
-    .content {
-      position: relative;
-      z-index: 2;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
+  .brand {
+    font-size: 1.6rem; font-weight:900; letter-spacing:2px;
+    text-transform:uppercase;
+    background: linear-gradient(135deg,#E91E63,#C2185B,#AD1457);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    filter: drop-shadow(0 4px 10px rgba(233,30,99,0.35));
+    margin-bottom:4px;
+  }
 
-    /* ---------- TITLE ---------- */
-    .wonder-title {
-      font-size: 2.2rem;
-      font-weight: 900;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      background: linear-gradient(135deg, #E91E63, #C2185B, #AD1457, #E91E63);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      filter: drop-shadow(0 6px 12px rgba(233, 30, 99, 0.35));
-      margin-bottom: 8px;
-      line-height: 1.2;
-      animation: titleGlow 3s ease-in-out infinite alternate;
-    }
+  .title {
+    font-size:1.9rem; font-weight:900; letter-spacing:2px; text-transform:uppercase;
+    background: linear-gradient(135deg,#FF6F00,#FFB300,#FF8F00,#E65100);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    filter: drop-shadow(0 4px 12px rgba(255,150,0,0.5));
+    margin-bottom:6px; line-height:1.2;
+    animation: diwaliGlow 2s ease-in-out infinite alternate;
+  }
 
-    @keyframes titleGlow {
-      0% { filter: drop-shadow(0 6px 12px rgba(233, 30, 99, 0.3)); }
-      100% { filter: drop-shadow(0 6px 22px rgba(200, 50, 150, 0.6)); }
-    }
+  @keyframes diwaliGlow {
+    0%{filter:drop-shadow(0 4px 12px rgba(255,150,0,0.4));}
+    100%{filter:drop-shadow(0 4px 24px rgba(255,200,0,0.8));}
+  }
 
-    .subhead {
-      font-size: 0.95rem;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      color: #7B1FA2;
-      text-transform: uppercase;
-      background: rgba(255, 200, 230, 0.55);
-      padding: 8px 20px;
-      border-radius: 40px;
-      backdrop-filter: blur(5px);
-      margin-bottom: 30px;
-      border: 1.5px solid rgba(233, 30, 99, 0.3);
-      box-shadow: 0 5px 20px rgba(233, 30, 99, 0.15);
-    }
+  .subhead {
+    font-size:0.85rem; font-weight:600; letter-spacing:1px; color:#7B1FA2;
+    text-transform:uppercase; background: rgba(255,200,230,0.6);
+    padding:8px 16px; border-radius:40px; margin-bottom:22px;
+    border:1.5px solid rgba(233,30,99,0.3);
+  }
 
-    /* ---------- BOX ILLUSTRATION ---------- */
-    .mystery-box-area {
-      margin: 10px 0 20px;
-      filter: drop-shadow(0 10px 30px rgba(233, 30, 99, 0.35));
-      animation: boxFloat 3s ease-in-out infinite;
-    }
+  .form { width:100%; max-width:320px; display:flex; flex-direction:column; gap:14px; }
 
-    @keyframes boxFloat {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
+  .field { display:flex; flex-direction:column; text-align:left; gap:6px; }
 
-    .box-svg {
-      width: 170px;
-      height: 170px;
-    }
+  .field label {
+    font-size:0.78rem; font-weight:700; color:#C2185B;
+    letter-spacing:1px; text-transform:uppercase; padding-left:6px;
+  }
 
-    /* ---------- TAP FOR SURPRISE BUTTON ---------- */
-    .tap-surprise {
-      background: linear-gradient(145deg, #F06292, #E91E63, #C2185B);
-      border: 2px solid #FFFFFF;
-      color: #FFFFFF;
-      font-weight: 800;
-      font-size: 1.15rem;
-      letter-spacing: 1.5px;
-      padding: 20px 32px;
-      border-radius: 100px;
-      width: 100%;
-      max-width: 320px;
-      text-transform: uppercase;
-      box-shadow: 0 15px 20px -8px rgba(194, 24, 91, 0.5),
-                  0 0 0 2px rgba(255, 255, 255, 0.7) inset,
-                  0 8px 0 #8E153F,
-                  0 0 30px rgba(233, 30, 99, 0.4);
-      transform: translateY(-2px);
-      transition: all 0.1s ease;
-      cursor: pointer;
-      font-family: inherit;
-      margin-top: 8px;
-      text-shadow: 0 1px 4px rgba(120, 20, 80, 0.5);
-      animation: tapPulse 2s ease-in-out infinite;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
+  .field input {
+    font-family:inherit; font-size:1rem; font-weight:600;
+    padding:16px 20px; border-radius:60px;
+    border:2px solid rgba(233,30,99,0.35);
+    background: rgba(255,255,255,0.9); color:#4A1A4A; outline:none;
+    transition: all 0.2s ease;
+    box-shadow: 0 6px 15px -8px rgba(194,24,91,0.3);
+  }
 
-    @keyframes tapPulse {
-      0%, 100% { transform: translateY(-2px) scale(1); }
-      50% { transform: translateY(-2px) scale(1.03); }
-    }
+  .field input::placeholder { color:#C77DB0; font-weight:500; }
 
-    .tap-surprise:active {
-      transform: translateY(5px) scale(1);
-      box-shadow: 0 6px 10px -3px rgba(194, 24, 91, 0.6),
-                  0 0 0 2px rgba(255, 255, 255, 0.7) inset,
-                  0 2px 0 #8E153F;
-      animation: none;
-    }
+  .field input:focus {
+    border-color:#E91E63;
+    box-shadow: 0 0 0 4px rgba(233,30,99,0.15);
+    background:#FFFFFF;
+  }
 
-    .tap-surprise .icon {
-      font-size: 1.4rem;
-      animation: bounce 1.2s infinite;
-    }
+  .field input.error {
+    border-color:#F44336;
+    animation: shake 0.4s ease;
+  }
 
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-4px); }
-    }
+  @keyframes shake {
+    0%,100%{transform:translateX(0);}
+    20%{transform:translateX(-8px);}
+    40%{transform:translateX(8px);}
+    60%{transform:translateX(-5px);}
+    80%{transform:translateX(5px);}
+  }
 
-    /* ---------- BOX OPTIONS ---------- */
-    .box-options {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      width: 100%;
-      max-width: 320px;
-      margin-top: 10px;
-    }
+  .btn {
+    background: linear-gradient(145deg,#F06292,#E91E63,#C2185B);
+    border:2px solid #FFFFFF; color:#FFFFFF;
+    font-weight:800; font-size:1.05rem; letter-spacing:1.2px;
+    padding:18px 28px; border-radius:100px;
+    width:100%; max-width:320px; text-transform:uppercase;
+    box-shadow: 0 15px 20px -8px rgba(194,24,91,0.5),
+                0 0 0 2px rgba(255,255,255,0.7) inset,
+                0 8px 0 #8E153F;
+    transform: translateY(-2px); transition: all 0.1s ease;
+    cursor:pointer; font-family:inherit; margin-top:10px;
+    display:flex; align-items:center; justify-content:center; gap:10px;
+  }
 
-    .btn-box {
-      border: 2px solid rgba(255, 255, 255, 0.8);
-      color: #FFFFFF;
-      font-weight: 800;
-      font-size: 1.15rem;
-      padding: 20px 24px;
-      border-radius: 70px;
-      width: 100%;
-      text-transform: uppercase;
-      transition: all 0.15s ease;
-      cursor: pointer;
-      font-family: inherit;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      letter-spacing: 1px;
-      position: relative;
-      overflow: hidden;
-      transform: translateY(-2px);
-      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
-    }
+  .btn:active {
+    transform: translateY(5px);
+    box-shadow: 0 6px 10px -3px rgba(194,24,91,0.6),
+                0 0 0 2px rgba(255,255,255,0.7) inset,
+                0 2px 0 #8E153F;
+  }
 
-    .btn-box::after {
-      content: "";
-      position: absolute;
-      top: -50%;
-      left: -60%;
-      width: 40%;
-      height: 200%;
-      background: rgba(255, 255, 255, 0.3);
-      transform: rotate(25deg);
-      transition: all 0.5s ease;
-    }
+  .btn:disabled { opacity:.5; cursor:not-allowed; }
 
-    .btn-box:active::after {
-      left: 120%;
-    }
+  .btn .icon { font-size:1.3rem; }
 
-    .btn-box.empty {
-      background: linear-gradient(145deg, #F06292, #E91E63, #C2185B);
-      box-shadow: 0 12px 20px -8px rgba(194, 24, 91, 0.6),
-                  0 0 0 2px rgba(255, 255, 255, 0.7) inset,
-                  0 6px 0 #8E153F;
-    }
+  .note {
+    font-size:0.72rem; color:#9C27B0;
+    background: rgba(255,220,240,0.75);
+    border: 1.5px dashed rgba(233,30,99,0.4);
+    padding:10px 14px; border-radius:20px;
+    margin-top:18px; font-weight:500; line-height:1.5; max-width:320px;
+  }
 
-    .btn-box.empty:active {
-      transform: translateY(4px);
-      box-shadow: 0 6px 12px -4px rgba(194, 24, 91, 0.6),
-                  0 0 0 2px rgba(255, 255, 255, 0.7) inset,
-                  0 2px 0 #8E153F;
-    }
+  .note strong { color:#C2185B; }
 
-    .btn-box.filled {
-      background: linear-gradient(145deg, #BA68C8, #9C27B0, #7B1FA2);
-      box-shadow: 0 12px 20px -8px rgba(123, 31, 162, 0.6),
-                  0 0 0 2px rgba(255, 255, 255, 0.7) inset,
-                  0 6px 0 #4A0E5C;
-    }
+  /* GRID */
+  .grid-wrap { width:100%; max-width:340px; margin:10px 0 8px; }
 
-    .btn-box.filled:active {
-      transform: translateY(4px);
-      box-shadow: 0 6px 12px -4px rgba(123, 31, 162, 0.6),
-                  0 0 0 2px rgba(255, 255, 255, 0.7) inset,
-                  0 2px 0 #4A0E5C;
-    }
+  .grid {
+    display:grid; grid-template-columns:repeat(3,1fr);
+    gap:12px; width:100%;
+  }
 
-    /* ---------- SCROLL INDICATOR ---------- */
-    .scroll-hint {
-      margin-top: 16px;
-      font-size: 0.85rem;
-      color: #C2185B;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      animation: bounceDown 1.8s ease-in-out infinite;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      font-weight: 700;
-    }
+  .box {
+    aspect-ratio:1/1;
+    background: linear-gradient(145deg,#F8BBD0,#F48FB1);
+    border:2.5px solid #FFFFFF; border-radius:22px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:2rem; cursor:pointer; transition: all 0.2s ease;
+    box-shadow: 0 8px 15px -6px rgba(194,24,91,0.4),
+                0 0 0 2px rgba(255,255,255,0.6) inset,
+                0 4px 0 #C2185B;
+    transform: translateY(-2px); user-select:none;
+    position:relative; overflow:hidden;
+  }
 
-    .scroll-hint span {
-      font-size: 1.5rem;
-      line-height: 1;
-    }
+  .box:active { transform: translateY(3px) scale(0.97); }
+  .box.opened { cursor:default; pointer-events:none; }
 
-    @keyframes bounceDown {
-      0%, 100% { transform: translateY(0); opacity: 0.7; }
-      50% { transform: translateY(8px); opacity: 1; }
-    }
+  .box.opened.oops {
+    background: linear-gradient(145deg,#CE93D8,#AB47BC);
+    box-shadow: 0 4px 8px -3px rgba(123,31,162,0.5),
+                0 0 0 2px rgba(255,255,255,0.6) inset,
+                0 1px 0 #4A0E5C;
+    animation: boxShrink 0.4s ease;
+  }
 
-    /* ---------- SCRATCH CARD ---------- */
-    .scratch-section {
-      width: 100%;
-      max-width: 340px;
-      margin: 18px 0 10px;
-      position: relative;
-    }
+  .box.opened.win {
+    background: linear-gradient(145deg,#FFD54F,#FFB300);
+    box-shadow: 0 4px 8px -3px rgba(255,160,0,0.6),
+                0 0 0 2px rgba(255,255,255,0.8) inset,
+                0 1px 0 #E65100;
+    animation: boxBounce 0.5s cubic-bezier(0.175,0.885,0.32,1.275);
+    z-index:5;
+  }
 
-    .scratch-card {
-      position: relative;
-      width: 100%;
-      min-height: 230px;
-      border-radius: 32px;
-      overflow: hidden;
-      box-shadow: 0 15px 30px -10px rgba(194, 24, 91, 0.4),
-                  0 0 0 3px rgba(255, 255, 255, 0.9) inset,
-                  0 0 30px rgba(233, 30, 99, 0.3);
-      background: #FFE5F1;
-    }
+  @keyframes boxShrink { 0%{transform:scale(1);} 50%{transform:scale(0.9);} 100%{transform:scale(1);} }
+  @keyframes boxBounce { 0%{transform:scale(1);} 40%{transform:scale(1.15);} 70%{transform:scale(0.95);} 100%{transform:scale(1);} }
 
-    .scratch-content {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 24px 18px;
-      background: linear-gradient(160deg, #FFFFFF, #FFE5F1, #FFD1E8);
-      z-index: 1;
-      text-align: center;
-    }
+  .box-icon { font-size:1.8rem; transition: all 0.3s ease; }
+  .box.opened .box-icon { font-size:1.3rem; }
+  .box.opened.win .box-icon { font-size:2.2rem; }
 
-    .scratch-content .emoji-big {
-      font-size: 3.2rem;
-      margin-bottom: 10px;
-      filter: drop-shadow(0 0 18px rgba(233, 30, 99, 0.4));
-      animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
+  /* RESULT PANEL */
+  .result {
+    width:100%; max-width:340px;
+    background: rgba(255,255,255,0.95);
+    border:2px solid #E91E63; border-radius:28px;
+    padding:22px 18px; margin-top:16px;
+    box-shadow: 0 15px 30px -10px rgba(194,24,91,0.4);
+    animation: panelIn 0.5s cubic-bezier(0.175,0.885,0.32,1.275);
+    text-align:center;
+  }
 
-    @keyframes popIn {
-      0% { transform: scale(0.4); opacity: 0; }
-      80% { transform: scale(1.1); }
-      100% { transform: scale(1); opacity: 1; }
-    }
+  @keyframes panelIn {
+    0%{transform:translateY(20px); opacity:0;}
+    100%{transform:translateY(0); opacity:1;}
+  }
 
-    .scratch-content .riddle-label {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      color: #C2185B;
-      margin-bottom: 10px;
-      font-weight: 700;
-    }
+  .result.win-card {
+    border-color:#FFB300;
+    background: linear-gradient(160deg,#FFFDE7,#FFF9C4,#FFECB3);
+    box-shadow: 0 15px 30px -10px rgba(255,160,0,0.5);
+  }
 
-    .scratch-content .riddle-text {
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: #4A1A4A;
-      line-height: 1.6;
-      font-style: italic;
-      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
-    }
+  .result .emoji { font-size:3.2rem; line-height:1; margin-bottom:6px; }
 
-    .scratch-content .riddle-answer {
-      font-size: 1rem;
-      margin-top: 14px;
-      color: #7B1FA2;
-      font-weight: 800;
-      letter-spacing: 1px;
-      border-top: 2px dashed rgba(233, 30, 99, 0.5);
-      padding-top: 12px;
-      width: 80%;
-    }
+  .result .r-title {
+    font-size:1.3rem; font-weight:900; text-transform:uppercase;
+    letter-spacing:1.5px; margin-bottom:8px; line-height:1.3;
+    color:#7B1FA2;
+  }
 
-    #scratchCanvas, #scratchCanvas2 {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 2;
-      cursor: crosshair;
-      border-radius: 32px;
-      touch-action: none;
-    }
+  .result.win-card .r-title {
+    background: linear-gradient(to right,#E65100,#FF6F00,#FF8F00);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
 
-    .scratch-overlay-text {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 3;
-      pointer-events: none;
-      color: #FFFFFF;
-      font-weight: 800;
-      font-size: 1.1rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      text-shadow: 0 2px 12px rgba(120, 20, 80, 0.9);
-      transition: opacity 0.5s ease;
-    }
+  .result .r-msg {
+    font-size:1rem; font-weight:600; color:#4A1A4A; line-height:1.6;
+  }
 
-    .scratch-overlay-text span {
-      font-size: 2rem;
-      margin-bottom: 4px;
-    }
+  .result .r-msg .hl { color:#C2185B; font-weight:800; }
+  .result.win-card .r-msg .hl { color:#E65100; font-size:1.1rem; }
 
-    /* ---------- BUTTONS ---------- */
-    .btn-primary {
-      background: linear-gradient(145deg, #F06292, #E91E63, #C2185B);
-      border: 2px solid #FFFFFF;
-      color: #FFFFFF;
-      font-weight: 800;
-      font-size: 1.15rem;
-      letter-spacing: 1.5px;
-      padding: 18px 36px;
-      border-radius: 100px;
-      width: 100%;
-      max-width: 320px;
-      text-transform: uppercase;
-      box-shadow: 0 15px 20px -8px rgba(194, 24, 91, 0.5),
-                  0 0 0 2px rgba(255, 255, 255, 0.7) inset,
-                  0 8px 0 #8E153F,
-                  0 0 30px rgba(233, 30, 99, 0.4);
-      transform: translateY(-2px);
-      transition: all 0.1s ease;
-      cursor: pointer;
-      font-family: inherit;
-      margin-top: 8px;
-      text-shadow: 0 1px 4px rgba(120, 20, 80, 0.5);
-    }
+  .coupon-box {
+    background: rgba(255,255,255,0.9);
+    border:2px dashed #C2185B;
+    border-radius:16px;
+    padding:12px 16px;
+    margin-top:14px;
+  }
 
-    .btn-primary:active {
-      transform: translateY(5px);
-      box-shadow: 0 6px 10px -3px rgba(194, 24, 91, 0.6),
-                  0 0 0 2px rgba(255, 255, 255, 0.7) inset,
-                  0 2px 0 #8E153F;
-    }
+  .coupon-label {
+    font-size:0.7rem; font-weight:700; color:#7B1FA2;
+    letter-spacing:2px; text-transform:uppercase; margin-bottom:4px;
+  }
 
-    .btn-secondary {
-      background: linear-gradient(145deg, #BA68C8, #9C27B0, #7B1FA2);
-      border: 2px solid #FFFFFF;
-      color: #FFFFFF;
-      font-weight: 800;
-      font-size: 1.1rem;
-      padding: 16px 28px;
-      border-radius: 60px;
-      width: 100%;
-      max-width: 300px;
-      text-transform: uppercase;
-      box-shadow: 0 10px 15px -5px rgba(123, 31, 162, 0.5),
-                  0 0 0 2px rgba(255, 255, 255, 0.7) inset,
-                  0 5px 0 #4A0E5C,
-                  0 0 25px rgba(156, 39, 176, 0.3);
-      transform: translateY(-2px);
-      transition: all 0.1s ease;
-      cursor: pointer;
-      font-family: inherit;
-      margin-top: 16px;
-      text-shadow: 0 1px 4px rgba(60, 10, 80, 0.5);
-    }
+  .coupon-code {
+    font-size:1.3rem; font-weight:900; letter-spacing:2px;
+    color:#C2185B;
+    font-family: 'Courier New', monospace;
+    word-break: break-all;
+  }
 
-    .btn-secondary:active {
-      transform: translateY(4px);
-      box-shadow: 0 6px 10px -3px rgba(123, 31, 162, 0.6),
-                  0 0 0 2px rgba(255, 255, 255, 0.7) inset,
-                  0 1px 0 #4A0E5C;
-    }
+  .wa-btn {
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    background: linear-gradient(145deg,#25D366,#128C7E);
+    border:2px solid #FFFFFF; color:#FFFFFF;
+    font-weight:800; font-size:0.95rem; letter-spacing:1px;
+    padding:14px 24px; border-radius:60px;
+    margin-top:14px; width:100%;
+    text-transform:uppercase; text-decoration:none;
+    box-shadow: 0 10px 15px -5px rgba(18,140,126,0.5),
+                0 0 0 2px rgba(255,255,255,0.7) inset,
+                0 5px 0 #0A5C52;
+    transform: translateY(-2px); transition: all 0.1s ease;
+    font-family:inherit; cursor:pointer;
+  }
 
-    /* ---------- RESULT SCREENS ---------- */
-    .result-icon {
-      font-size: 4.5rem;
-      line-height: 1;
-      filter: drop-shadow(0 0 25px rgba(233, 30, 99, 0.6));
-      margin-bottom: 5px;
-      animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
+  .wa-btn:active {
+    transform: translateY(4px);
+    box-shadow: 0 6px 10px -3px rgba(18,140,126,0.6),
+                0 0 0 2px rgba(255,255,255,0.7) inset,
+                0 1px 0 #0A5C52;
+  }
 
-    .result-title {
-      font-size: 1.8rem;
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin: 5px 0 10px;
-      background: linear-gradient(to right, #E91E63, #C2185B, #9C27B0);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      filter: drop-shadow(0 3px 8px rgba(194, 24, 91, 0.3));
-      line-height: 1.3;
-    }
+  .diya-row {
+    font-size:1.8rem; letter-spacing:8px; margin:10px 0;
+    animation: diyaFlicker 1.5s ease-in-out infinite alternate;
+  }
 
-    .result-message {
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: #4A1A4A;
-      margin: 8px 0 14px;
-      padding: 0 8px;
-      line-height: 1.6;
-      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
-    }
+  @keyframes diyaFlicker { 0%{opacity:.8;} 100%{opacity:1;} }
 
-    .highlight {
-      color: #C2185B;
-      font-weight: 800;
-      text-shadow: 0 0 12px rgba(233, 30, 99, 0.4);
-    }
+  .hidden { display:none !important; }
+  .fade-in { animation: fadeIn 0.5s ease; }
+  @keyframes fadeIn { from{opacity:0; transform:translateY(12px);} to{opacity:1; transform:translateY(0);} }
 
-    .confetti {
-      position: fixed;
-      width: 8px;
-      height: 8px;
-      top: -10px;
-      z-index: 999;
-      pointer-events: none;
-      animation: confettiFall linear forwards;
-    }
+  .confetti {
+    position:fixed; width:9px; height:9px; top:-10px; z-index:999;
+    pointer-events:none; animation: confettiFall linear forwards;
+  }
+  @keyframes confettiFall {
+    0%{transform:translateY(0) rotate(0deg); opacity:1;}
+    100%{transform:translateY(110vh) rotate(720deg); opacity:0;}
+  }
 
-    @keyframes confettiFall {
-      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    .fade-in {
-      animation: fadeIn 0.5s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-height: 700px) {
-      .game-container { padding: 20px 16px; }
-      .wonder-title { font-size: 1.8rem; }
-      .box-svg { width: 130px; height: 130px; }
-      .result-title { font-size: 1.5rem; }
-    }
-
-    .sparkle {
-      position: absolute;
-      width: 5px;
-      height: 5px;
-      background: #FFB6E6;
-      border-radius: 50%;
-      opacity: 0.6;
-      filter: blur(1px);
-      animation: floatSparkle 4s infinite alternate;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    @keyframes floatSparkle {
-      0% { transform: translateY(0px); opacity: 0.3; }
-      100% { transform: translateY(-12px); opacity: 0.9; }
-    }
-  </style>
+  .sparkle {
+    position:absolute; width:5px; height:5px;
+    background:#FFB6E6; border-radius:50%;
+    opacity:.6; filter:blur(1px);
+    animation: floatSparkle 4s infinite alternate;
+    pointer-events:none;
+  }
+  @keyframes floatSparkle {
+    0%{transform:translateY(0px); opacity:.3;}
+    100%{transform:translateY(-12px); opacity:.9;}
+  }
+</style>
 </head>
 <body>
-  <div class="floating-heart" style="left: 8%; animation-delay: 0s;">💖</div>
-  <div class="floating-heart" style="left: 22%; animation-delay: 2s;">✨</div>
-  <div class="floating-heart" style="left: 45%; animation-delay: 4s;">💜</div>
-  <div class="floating-heart" style="left: 68%; animation-delay: 1s;">🌸</div>
-  <div class="floating-heart" style="left: 85%; animation-delay: 3s;">💫</div>
-  <div class="floating-heart" style="left: 55%; animation-delay: 5s;">🎀</div>
-  <div class="floating-heart" style="left: 12%; animation-delay: 6s;">⭐</div>
-  <div class="floating-heart" style="left: 78%; animation-delay: 2.5s;">💕</div>
 
-  <div class="game-container" id="gameContainer">
-    <div class="content" id="dynamicContent">
+<div class="diya" style="left:8%; animation-delay:0s;">🪔</div>
+<div class="diya" style="left:22%; animation-delay:2s;">✨</div>
+<div class="diya" style="left:45%; animation-delay:4s;">🎇</div>
+<div class="diya" style="left:68%; animation-delay:1s;">🌸</div>
+<div class="diya" style="left:85%; animation-delay:3s;">💫</div>
 
-      <!-- ================= SCREEN 1: LANDING ================= -->
-      <div id="landingScreen">
-        <div class="wonder-title">THE WONDER<br>MACHINE</div>
-        <div class="subhead">Your Mystery Result Awaits!</div>
+<div class="container" id="container">
+<div class="content">
 
-        <div class="mystery-box-area">
-          <svg class="box-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="40" y="70" width="120" height="100" rx="12" fill="url(#gradBox)" stroke="#E91E63" stroke-width="4"/>
-            <rect x="30" y="50" width="140" height="30" rx="10" fill="url(#gradLid)" stroke="#C2185B" stroke-width="4"/>
-            <circle cx="100" cy="70" r="10" fill="#F06292" stroke="#FFFFFF" stroke-width="3"/>
-            <path d="M100 70 L100 90" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
-            <defs>
-              <linearGradient id="gradBox" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#F8BBD0" />
-                <stop offset="100%" stop-color="#F48FB1" />
-              </linearGradient>
-              <linearGradient id="gradLid" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#E91E63" />
-                <stop offset="100%" stop-color="#C2185B" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
+  <!-- ============== SCREEN 1: LOGIN ============== -->
+  <div id="screenLogin">
+    <div class="brand">Sneha Suit</div>
+    <div class="title">Diwali<br>Lucky Draw</div>
+    <div class="subhead">🪔 Scan · Play · Win 🪔</div>
 
-        <button class="tap-surprise" id="tapSurpriseBtn">
-          <span class="icon">🎁</span>
-          TAP HERE FOR MORE SURPRISE
-        </button>
+    <div class="form">
+      <div class="field">
+        <label for="nameInput">👤 Your Name</label>
+        <input type="text" id="nameInput" placeholder="Enter your name" maxlength="30" autocomplete="off">
       </div>
-
-      <!-- ================= SCREEN 2: CHOOSE EMPTY OR FILLED ================= -->
-      <div id="selectScreen" class="hidden">
-        <div class="result-icon" style="font-size: 3.5rem; margin-bottom: 10px;">🤔</div>
-        <div class="result-title" style="font-size: 1.5rem;">WHAT DID YOU GET?</div>
-        <div class="result-message" style="font-size: 1rem; margin-bottom: 20px;">Select the box you opened</div>
-
-        <div class="box-options">
-          <button class="btn-box empty" id="emptyOption">
-            <span>🟢</span> EMPTY BOX
-          </button>
-          <button class="btn-box filled" id="filledOption">
-            <span>🔴</span> FILLED BOX
-          </button>
-        </div>
+      <div class="field">
+        <label for="phoneInput">📱 Phone Number</label>
+        <input type="tel" id="phoneInput" placeholder="10-digit mobile number" maxlength="10" inputmode="numeric" autocomplete="off">
       </div>
-
-      <!-- ================= SCREEN 3A: WINNER (EMPTY BOX) ================= -->
-      <div id="winnerScreen" class="hidden">
-        <div class="result-icon">🎉</div>
-        <div class="result-title">YOU FOUND THE<br>EMPTY BOX!</div>
-        <div class="result-message">
-          Thank you for playing!<br>
-          <span class="highlight">Luck was on your side today.</span><br>
-          I hope you like the gift. 🎁
-        </div>
-
-        <div class="scroll-hint" style="margin-top: 10px;">
-          <span>👇</span>
-          SCROLL & SCRATCH
-        </div>
-
-        <div class="scratch-section">
-          <div class="scratch-card">
-            <div class="scratch-content">
-              <div class="emoji-big">🍬</div>
-              <div class="riddle-label">🧩 LET'S PLAY A RIDDLE 🧩</div>
-              <div class="riddle-text">
-                "I'm colorful and sweet, a carnival treat,<br>
-                In a wrapper so neat, I'm a joy to eat.<br>
-                What am I?"
-              </div>
-              <div class="riddle-answer">🍭 Answer: A CANDY! 🍭</div>
-            </div>
-            <div class="scratch-overlay-text" id="scratchOverlay1">
-              <span>👆</span>
-              SCRATCH HERE
-            </div>
-            <canvas id="scratchCanvas"></canvas>
-          </div>
-        </div>
-
-        <button class="btn-secondary" id="claimGiftBtn">CLAIM YOUR GIFT</button>
+      <button class="btn" id="playBtn">
+        <span class="icon">🎁</span>
+        PLAY NOW
+      </button>
+      <div class="note" id="loginNote">
+        ⚠️ <strong>Ek phone = ek chance.</strong> Har player kuch na kuch jeetega!
       </div>
-
-      <!-- ================= SCREEN 3B: LOSER (FILLED BOX) ================= -->
-      <div id="loserScreen" class="hidden">
-        <div class="result-icon">😮</div>
-        <div class="result-title">OOPS! DON'T GET<br>THE GIFT</div>
-        <div class="result-message">
-          But a <span class="highlight">delicious toffee</span> awaits you! 🍬<br>
-          Let's make a surprise for you...
-        </div>
-
-        <div class="scroll-hint" style="margin-top: 10px;">
-          <span>👇</span>
-          SCROLL & SCRATCH
-        </div>
-
-        <div class="scratch-section">
-          <div class="scratch-card">
-            <div class="scratch-content">
-              <div class="emoji-big">👅</div>
-              <div class="riddle-label">🎯 LET'S TRY WITH YOUR FRIENDS</div>
-              <div class="riddle-text">
-                "Candy cane, candy cane,<br>
-                Can you cane a candy cane?<br>
-                If you can't cane a candy cane,<br>
-                Can a candy cane cane you?"
-              </div>
-              <div class="riddle-answer">🎤 Say it 3 times fast!</div>
-            </div>
-            <div class="scratch-overlay-text" id="scratchOverlay2">
-              <span>👆</span>
-              SCRATCH HERE
-            </div>
-            <canvas id="scratchCanvas2"></canvas>
-          </div>
-        </div>
-
-        <button class="btn-secondary" id="tryAgainBtn">PLAY AGAIN</button>
-      </div>
-
-      <!-- ================= FINAL THANK YOU ================= -->
-      <div id="finalScreen" class="hidden">
-        <div class="result-icon">💖</div>
-        <div class="result-title">THANK YOU FOR<br>PLAYING & ENJOYING</div>
-        <div class="result-message">
-          Please visit again! 🌸<br>
-          <span class="highlight">The Wonder Machine awaits...</span>
-        </div>
-        <button class="btn-primary" id="restartBtn" style="margin-top: 20px;">BACK TO START</button>
-      </div>
-
     </div>
   </div>
 
-  <script>
-    (function() {
-      const landingScreen = document.getElementById('landingScreen');
-      const selectScreen = document.getElementById('selectScreen');
-      const winnerScreen = document.getElementById('winnerScreen');
-      const loserScreen = document.getElementById('loserScreen');
-      const finalScreen = document.getElementById('finalScreen');
+  <!-- ============== SCREEN 2: GAME GRID ============== -->
+  <div id="screenGame" class="hidden">
+    <div class="subhead" style="margin-bottom:6px;">Hi <span id="displayName">Friend</span>! 🎉</div>
+    <div class="title" style="font-size:1.4rem; margin-bottom:4px;">Pick A Box</div>
+    <div style="font-size:0.85rem; margin-bottom:14px; color:#7B1FA2; font-weight:600;">
+      One lucky box hides a big Diwali surprise!
+    </div>
 
-      const emptyOption = document.getElementById('emptyOption');
-      const filledOption = document.getElementById('filledOption');
-      const claimGiftBtn = document.getElementById('claimGiftBtn');
-      const tryAgainBtn = document.getElementById('tryAgainBtn');
-      const restartBtn = document.getElementById('restartBtn');
-      const tapSurpriseBtn = document.getElementById('tapSurpriseBtn');
+    <div class="grid-wrap">
+      <div class="grid" id="grid"></div>
+    </div>
 
-      const screens = [landingScreen, selectScreen, winnerScreen, loserScreen, finalScreen];
+    <div id="resultContainer"></div>
+  </div>
 
-      function hideAllScreens() {
-        screens.forEach(s => s.classList.add('hidden'));
+  <!-- ============== SCREEN 3: FINAL THANK YOU ============== -->
+  <div id="screenFinal" class="hidden">
+    <div class="diya-row">🪔 ✨ 🪔</div>
+    <div class="title">Thank You!<br>Happy Diwali 🎆</div>
+    <div style="font-size:1rem; font-weight:600; color:#4A1A4A; margin:10px 0; line-height:1.7;">
+      Thank you for playing & enjoying! 🌸<br>
+      May your Diwali be filled with<br>
+      light, joy, and sweetness!
+    </div>
+    <div style="font-size:0.95rem; font-weight:700; color:#C2185B; margin-top:6px;">
+      ✨ Please visit again ✨
+    </div>
+    <div class="diya-row">🪔 🎇 🪔</div>
+    <a class="wa-btn" id="finalWaBtn" href="#" target="_blank">
+      💬 WhatsApp Us
+    </a>
+    <button class="btn" id="restartBtn" style="background: linear-gradient(145deg,#BA68C8,#9C27B0,#7B1FA2); box-shadow: 0 10px 15px -5px rgba(123,31,162,0.5), 0 0 0 2px rgba(255,255,255,0.7) inset, 0 5px 0 #4A0E5C; margin-top:12px;">
+      🔄 Back To Start
+    </button>
+  </div>
+
+</div>
+</div>
+
+<script>
+(function(){
+  // ============================================
+  // 🔧 CONFIG
+  // ============================================
+  const CONFIG = {
+    BUSINESS: 'Sneha Suit',
+    WHATSAPP: '816868020109',
+    STORAGE_KEY: 'snehaSuit_usedPhones',
+    COUPON_PREFIX: 'DIWALI'
+  };
+
+  // ============================================
+  // 🎁 OFFERS — 9 BOXES
+  // ============================================
+  const OFFERS = [
+    { type:'win',  discount:30, condition:'Above ₹2000', emoji:'🎉', label:'30% OFF' },
+    { type:'win',  discount:25, condition:'Above ₹2000', emoji:'💃', label:'25% OFF' },
+    { type:'win',  discount:20, condition:'Above ₹1500', emoji:'🛍️', label:'20% OFF' },
+    { type:'win',  discount:15, condition:'Above ₹1500', emoji:'🛍️', label:'15% OFF' },
+    { type:'win',  discount:15, condition:'Above ₹1000', emoji:'✨', label:'15% OFF' },
+    { type:'win',  discount:10, condition:'Any purchase', emoji:'😊', label:'10% OFF' },
+    { type:'win',  discount:5, condition:'Any purchase', emoji:'😊', label:'5% OFF' },
+    { type:'win',  discount:10, condition:'Any purchase', emoji:'😊', label:'10% OFF' },
+    { type:'win',  discount:10, condition:'Any purchase', emoji:'😊', label:'10% OFF' }
+  ];
+
+  // ============================================
+  // DOM
+  // ============================================
+  const screenLogin = document.getElementById('screenLogin');
+  const screenGame  = document.getElementById('screenGame');
+  const screenFinal = document.getElementById('screenFinal');
+
+  const nameInput  = document.getElementById('nameInput');
+  const phoneInput = document.getElementById('phoneInput');
+  const playBtn    = document.getElementById('playBtn');
+  const displayName= document.getElementById('displayName');
+  const grid       = document.getElementById('grid');
+  const resultContainer = document.getElementById('resultContainer');
+  const restartBtn = document.getElementById('restartBtn');
+  const finalWaBtn = document.getElementById('finalWaBtn');
+  const loginNote  = document.getElementById('loginNote');
+
+  let gamePlayed = false;
+  let currentOffer = null;
+
+  // ============================================
+  // SCREEN HELPERS
+  // ============================================
+  function showScreen(el){
+    [screenLogin, screenGame, screenFinal].forEach(s => s.classList.add('hidden'));
+    el.classList.remove('hidden');
+    el.classList.add('fade-in');
+    setTimeout(()=> el.classList.remove('fade-in'), 500);
+  }
+
+  // ============================================
+  // STORAGE
+  // ============================================
+  function getUsedPhones(){
+    try { return JSON.parse(localStorage.getItem(CONFIG.STORAGE_KEY) || '[]'); }
+    catch(e){ return []; }
+  }
+  function markPhoneUsed(phone){
+    try {
+      const list = getUsedPhones();
+      if (!list.includes(phone)){
+        list.push(phone);
+        localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(list));
       }
+    } catch(e){}
+  }
+  function isPhoneUsed(phone){
+    return getUsedPhones().includes(phone);
+  }
 
-      function showScreen(screen) {
-        hideAllScreens();
-        screen.classList.remove('hidden');
-        screen.classList.add('fade-in');
-        setTimeout(() => screen.classList.remove('fade-in'), 500);
-      }
+  // ============================================
+  // COUPON GENERATOR
+  // ============================================
+  function generateCoupon(discount){
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let rand = '';
+    for (let i=0;i<4;i++){
+      rand += chars[Math.floor(Math.random()*chars.length)];
+    }
+    return `${CONFIG.COUPON_PREFIX}-${discount}-${rand}`;
+  }
 
-      // ----- TAP FOR MORE SURPRISE -> selection screen -----
-      tapSurpriseBtn.addEventListener('click', () => {
-        showScreen(selectScreen);
-      });
+  // ============================================
+  // PLAY BUTTON
+  // ============================================
+  playBtn.addEventListener('click', () => {
+    const name = nameInput.value.trim();
+    const phone = phoneInput.value.trim();
 
-      // ----- EMPTY BOX (WINNER) -----
-      emptyOption.addEventListener('click', () => {
-        showScreen(winnerScreen);
-        setTimeout(() => initScratch('scratchCanvas', 'scratchOverlay1'), 150);
-        fireConfetti();
-      });
+    // Validate name
+    if (name.length < 2){
+      nameInput.classList.add('error');
+      setTimeout(()=> nameInput.classList.remove('error'), 500);
+      return;
+    }
+    // Validate phone
+    if (!/^\d{10}$/.test(phone)){
+      phoneInput.classList.add('error');
+      setTimeout(()=> phoneInput.classList.remove('error'), 500);
+      return;
+    }
+    // Check if already used
+    if (isPhoneUsed(phone)){
+      phoneInput.classList.add('error');
+      setTimeout(()=> phoneInput.classList.remove('error'), 500);
+      alert('⚠️ Yeh phone number pehle use ho chuka hai.\n\nEk phone number sirf ek baar khel sakta hai.');
+      return;
+    }
 
-      // ----- FILLED BOX (LOSER) -----
-      filledOption.addEventListener('click', () => {
-        showScreen(loserScreen);
-        setTimeout(() => initScratch('scratchCanvas2', 'scratchOverlay2'), 150);
-      });
+    // Mark as used
+    markPhoneUsed(phone);
 
-      // ----- CLAIM GIFT -> final screen -----
-      claimGiftBtn.addEventListener('click', () => {
-        showScreen(finalScreen);
-        fireConfetti();
-      });
+    // Show display name
+    displayName.textContent = name;
 
-      // ----- TRY AGAIN -> final screen -----
-      tryAgainBtn.addEventListener('click', () => {
-        showScreen(finalScreen);
-      });
+    // Reset game
+    gamePlayed = false;
+    resultContainer.innerHTML = '';
 
-      // ----- RESTART -> landing -----
-      restartBtn.addEventListener('click', () => {
-        showScreen(landingScreen);
-        resetCanvas('scratchCanvas');
-        resetCanvas('scratchCanvas2');
-      });
+    // Setup grid
+    setupGrid();
 
-      // ----- SCRATCH CARD LOGIC -----
-      function initScratch(canvasId, overlayId) {
-        const canvas = document.getElementById(canvasId);
-        const overlay = document.getElementById(overlayId);
-        if (!canvas) return;
+    // Show game screen
+    showScreen(screenGame);
+  });
 
-        const ctx = canvas.getContext('2d');
-        const rect = canvas.parentElement.getBoundingClientRect();
-        const width = rect.width;
-        const height = rect.height;
+  // Enter key nav
+  nameInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter'){ e.preventDefault(); phoneInput.focus(); }
+  });
+  phoneInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter'){ e.preventDefault(); playBtn.click(); }
+  });
 
-        const dpr = window.devicePixelRatio || 1;
-        canvas.width = width * dpr;
-        canvas.height = height * dpr;
-        canvas.style.width = width + 'px';
-        canvas.style.height = height + 'px';
-        ctx.scale(dpr, dpr);
+  // ============================================
+  // SETUP GRID
+  // ============================================
+  function setupGrid(){
+    // Shuffle offers
+    const shuffled = [...OFFERS];
+    for (let i=shuffled.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
 
-        const gradient = ctx.createLinearGradient(0, 0, width, height);
-        gradient.addColorStop(0, '#E91E63');
-        gradient.addColorStop(0.3, '#F06292');
-        gradient.addColorStop(0.6, '#BA68C8');
-        gradient.addColorStop(1, '#9C27B0');
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, width, height);
+    grid.innerHTML = '';
+    shuffled.forEach((offer, idx) => {
+      const box = document.createElement('div');
+      box.className = 'box';
+      box.innerHTML = '<span class="box-icon">🎁</span>';
+      box.addEventListener('click', () => handleBoxClick(box, offer));
+      grid.appendChild(box);
+    });
+  }
 
-        for (let i = 0; i < 70; i++) {
-          ctx.beginPath();
-          ctx.arc(Math.random() * width, Math.random() * height, Math.random() * 2.5 + 1, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.4 + 0.1})`;
-          ctx.fill();
-        }
+  // ============================================
+  // HANDLE BOX CLICK
+  // ============================================
+  function handleBoxClick(boxEl, offer){
+    if (gamePlayed || boxEl.classList.contains('opened')) return;
+    gamePlayed = true;
+    currentOffer = offer;
 
-        ctx.font = 'bold 15px Poppins, sans-serif';
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('SCRATCH HERE', width / 2, height / 2);
+    boxEl.classList.add('opened', 'win');
+    boxEl.querySelector('.box-icon').textContent = offer.emoji;
 
-        let isDrawing = false;
-        let lastX = 0, lastY = 0;
+    // Show result panel
+    showResult(offer);
 
-        function getPos(e) {
-          const rect = canvas.getBoundingClientRect();
-          const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-          const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-          return { x: clientX - rect.left, y: clientY - rect.top };
-        }
+    // Confetti
+    fireConfetti();
 
-        function scratchStart(e) {
-          e.preventDefault();
-          isDrawing = true;
-          const pos = getPos(e);
-          lastX = pos.x; lastY = pos.y;
-          scratch(pos.x, pos.y);
-          if (overlay) overlay.style.opacity = '0';
-        }
+    // After 3 sec, go to final screen
+    setTimeout(() => {
+      goToFinal(offer);
+    }, 3200);
+  }
 
-        function scratchMove(e) {
-          if (!isDrawing) return;
-          e.preventDefault();
-          const pos = getPos(e);
-          scratch(pos.x, pos.y);
-          lastX = pos.x; lastY = pos.y;
-        }
+  // ============================================
+  // SHOW RESULT PANEL
+  // ============================================
+  function showResult(offer){
+    const coupon = generateCoupon(offer.discount);
 
-        function scratchEnd() { isDrawing = false; }
+    const panel = document.createElement('div');
+    panel.className = 'result win-card';
+    panel.innerHTML = `
+      <div class="emoji">${offer.emoji}</div>
+      <div class="r-title">Congratulations!</div>
+      <div class="r-msg">
+        You won <span class="hl">${offer.label}</span> on any product above <span class="hl">${offer.condition}</span>!
+      </div>
+      <div class="coupon-box">
+        <div class="coupon-label">Your Coupon Code</div>
+        <div class="coupon-code">${coupon}</div>
+      </div>
+      <div style="font-size:0.8rem; margin-top:10px; color:#7B1FA2; font-weight:600;">
+        📸 Screenshot lo aur WhatsApp par bhejo: <strong>${CONFIG.WHATSAPP}</strong>
+      </div>
+      <div style="font-size:0.75rem; margin-top:6px; color:#C2185B;">
+        ⏰ Coupon 7 din tak valid hai
+      </div>
+    `;
+    resultContainer.appendChild(panel);
+  }
 
-        function scratch(x, y) {
-          ctx.globalCompositeOperation = 'destination-out';
-          ctx.beginPath();
-          ctx.arc(x, y, 30, 0, Math.PI * 2);
-          ctx.fill();
-          checkScratched();
-        }
+  // ============================================
+  // GO TO FINAL SCREEN
+  // ============================================
+  function goToFinal(offer){
+    const coupon = generateCoupon(offer.discount);
+    const message = `Hi ${CONFIG.BUSINESS}! 🪔\n\nMain Diwali Lucky Draw khel chuki hoon.\n\nNaam: ${displayName.textContent}\nOffer: ${offer.label} (${offer.condition})\nCoupon Code: ${coupon}\n\nPlease mera order confirm karein. Thank you!`;
 
-        function checkScratched() {
-          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-          const data = imageData.data;
-          let transparent = 0;
-          for (let i = 3; i < data.length; i += 4) {
-            if (data[i] < 10) transparent++;
-          }
-          const percent = transparent / (data.length / 4);
-          if (percent > 0.5) {
-            if (overlay) overlay.style.opacity = '0';
-            canvas.style.opacity = '0.1';
-          }
-        }
+    finalWaBtn.href = `https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent(message)}`;
 
-        canvas.addEventListener('mousedown', scratchStart);
-        canvas.addEventListener('mousemove', scratchMove);
-        canvas.addEventListener('mouseup', scratchEnd);
-        canvas.addEventListener('mouseleave', scratchEnd);
-        canvas.addEventListener('touchstart', scratchStart, { passive: false });
-        canvas.addEventListener('touchmove', scratchMove, { passive: false });
-        canvas.addEventListener('touchend', scratchEnd);
-      }
+    showScreen(screenFinal);
+    fireConfetti();
+  }
 
-      function resetCanvas(canvasId) {
-        const canvas = document.getElementById(canvasId);
-        if (canvas) {
-          canvas.style.opacity = '1';
-          const ctx = canvas.getContext('2d');
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
-        const overlay1 = document.getElementById('scratchOverlay1');
-        const overlay2 = document.getElementById('scratchOverlay2');
-        if (overlay1) overlay1.style.opacity = '1';
-        if (overlay2) overlay2.style.opacity = '1';
-      }
+  // ============================================
+  // RESTART
+  // ============================================
+  restartBtn.addEventListener('click', () => {
+    nameInput.value = '';
+    phoneInput.value = '';
+    gamePlayed = false;
+    currentOffer = null;
+    resultContainer.innerHTML = '';
+    showScreen(screenLogin);
+  });
 
-      // ----- CONFETTI -----
-      function fireConfetti() {
-        const colors = ['#F06292', '#E91E63', '#BA68C8', '#FF8DC7', '#9C27B0', '#FFD1EC', '#E0B0FF'];
-        for (let i = 0; i < 70; i++) {
-          const conf = document.createElement('div');
-          conf.className = 'confetti';
-          conf.style.left = Math.random() * 100 + 'vw';
-          conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-          conf.style.width = (Math.random() * 8 + 4) + 'px';
-          conf.style.height = (Math.random() * 8 + 4) + 'px';
-          conf.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
-          conf.style.animationDuration = (Math.random() * 2 + 2) + 's';
-          conf.style.animationDelay = Math.random() * 0.8 + 's';
-          document.body.appendChild(conf);
-          setTimeout(() => conf.remove(), 4500);
-        }
-      }
+  // ============================================
+  // CONFETTI
+  // ============================================
+  function fireConfetti(){
+    const colors = ['#FFD54F','#FFB300','#FF6F00','#F06292','#E91E63','#BA68C8','#FF8DC7','#FFECB3'];
+    for (let i=0;i<90;i++){
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.left = Math.random()*100 + 'vw';
+      c.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+      c.style.width = (Math.random()*9+4) + 'px';
+      c.style.height = (Math.random()*9+4) + 'px';
+      c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      c.style.animationDuration = (Math.random()*2+2) + 's';
+      c.style.animationDelay = Math.random()*0.8 + 's';
+      document.body.appendChild(c);
+      setTimeout(()=> c.remove(), 4500);
+    }
+  }
 
-      // ----- SPARKLES -----
-      const container = document.getElementById('gameContainer');
-      for (let i = 0; i < 15; i++) {
-        const spark = document.createElement('div');
-        spark.className = 'sparkle';
-        spark.style.left = Math.random() * 100 + '%';
-        spark.style.top = Math.random() * 100 + '%';
-        spark.style.animationDelay = Math.random() * 4 + 's';
-        spark.style.animationDuration = (Math.random() * 3 + 2) + 's';
-        spark.style.width = (Math.random() * 5 + 2) + 'px';
-        spark.style.height = spark.style.width;
-        spark.style.background = `hsl(${Math.random() * 60 + 310}, 90%, 75%)`;
-        container.appendChild(spark);
-      }
+  // ============================================
+  // SPARKLES
+  // ============================================
+  const container = document.getElementById('container');
+  for (let i=0;i<15;i++){
+    const s = document.createElement('div');
+    s.className = 'sparkle';
+    s.style.left = Math.random()*100 + '%';
+    s.style.top = Math.random()*100 + '%';
+    s.style.animationDelay = Math.random()*4 + 's';
+    s.style.animationDuration = (Math.random()*3+2) + 's';
+    s.style.width = (Math.random()*5+2) + 'px';
+    s.style.height = s.style.width;
+    s.style.background = `hsl(${Math.random()*60+310},90%,75%)`;
+    container.appendChild(s);
+  }
 
-      const allButtons = [emptyOption, filledOption, claimGiftBtn, tryAgainBtn, restartBtn, tapSurpriseBtn];
-      allButtons.forEach(btn => {
-        btn.addEventListener('touchstart', function() {
-          this.style.transform = 'scale(0.96)';
-        }, { passive: true });
-        btn.addEventListener('touchend', function() {
-          this.style.transform = '';
-        });
-        btn.addEventListener('touchcancel', function() {
-          this.style.transform = '';
-        });
-      });
+  // ============================================
+  // INIT
+  // ============================================
+  showScreen(screenLogin);
 
-      showScreen(landingScreen);
-
-    })();
-  </script>
+})();
+</script>
 </body>
 </html>
