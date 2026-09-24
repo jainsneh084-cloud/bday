@@ -185,14 +185,6 @@
   .box:active { transform: translateY(3px) scale(0.97); }
   .box.opened { cursor:default; pointer-events:none; }
 
-  .box.opened.oops {
-    background: linear-gradient(145deg,#CE93D8,#AB47BC);
-    box-shadow: 0 4px 8px -3px rgba(123,31,162,0.5),
-                0 0 0 2px rgba(255,255,255,0.6) inset,
-                0 1px 0 #4A0E5C;
-    animation: boxShrink 0.4s ease;
-  }
-
   .box.opened.win {
     background: linear-gradient(145deg,#FFD54F,#FFB300);
     box-shadow: 0 4px 8px -3px rgba(255,160,0,0.6),
@@ -202,11 +194,9 @@
     z-index:5;
   }
 
-  @keyframes boxShrink { 0%{transform:scale(1);} 50%{transform:scale(0.9);} 100%{transform:scale(1);} }
   @keyframes boxBounce { 0%{transform:scale(1);} 40%{transform:scale(1.15);} 70%{transform:scale(0.95);} 100%{transform:scale(1);} }
 
   .box-icon { font-size:1.8rem; transition: all 0.3s ease; }
-  .box.opened .box-icon { font-size:1.3rem; }
   .box.opened.win .box-icon { font-size:2.2rem; }
 
   /* RESULT PANEL */
@@ -236,7 +226,6 @@
   .result .r-title {
     font-size:1.3rem; font-weight:900; text-transform:uppercase;
     letter-spacing:1.5px; margin-bottom:8px; line-height:1.3;
-    color:#7B1FA2;
   }
 
   .result.win-card .r-title {
@@ -269,6 +258,17 @@
     color:#C2185B;
     font-family: 'Courier New', monospace;
     word-break: break-all;
+  }
+
+  .screenshot-reminder {
+    font-size:0.9rem; margin-top:14px; color:#C2185B;
+    font-weight:700; padding:10px 12px;
+    background: rgba(255,220,240,0.75);
+    border-radius:14px; line-height:1.4;
+  }
+
+  .screenshot-reminder span {
+    font-size:0.75rem; color:#7B1FA2; font-weight:600;
   }
 
   .wa-btn {
@@ -417,15 +417,15 @@
   // 🎁 OFFERS — 9 BOXES
   // ============================================
   const OFFERS = [
-    { type:'win',  discount:30, condition:'Above ₹2000', emoji:'🎉', label:'30% OFF' },
-    { type:'win',  discount:25, condition:'Above ₹2000', emoji:'💃', label:'25% OFF' },
-    { type:'win',  discount:20, condition:'Above ₹1500', emoji:'🛍️', label:'20% OFF' },
-    { type:'win',  discount:15, condition:'Above ₹1500', emoji:'🛍️', label:'15% OFF' },
-    { type:'win',  discount:15, condition:'Above ₹1000', emoji:'✨', label:'15% OFF' },
-    { type:'win',  discount:10, condition:'Any purchase', emoji:'😊', label:'10% OFF' },
-    { type:'win',  discount:5, condition:'Any purchase', emoji:'😊', label:'5% OFF' },
-    { type:'win',  discount:10, condition:'Any purchase', emoji:'😊', label:'10% OFF' },
-    { type:'win',  discount:10, condition:'Any purchase', emoji:'😊', label:'10% OFF' }
+    { discount:30, condition:'Above ₹2000', emoji:'🎉', label:'30% OFF' },
+    { discount:25, condition:'Above ₹2000', emoji:'💃', label:'25% OFF' },
+    { discount:20, condition:'Above ₹1500', emoji:'🛍️', label:'20% OFF' },
+    { discount:20, condition:'Above ₹1500', emoji:'🛍️', label:'20% OFF' },
+    { discount:15, condition:'Above ₹1000', emoji:'✨', label:'15% OFF' },
+    { discount:10, condition:'Any purchase', emoji:'😊', label:'10% OFF' },
+    { discount:10, condition:'Any purchase', emoji:'😊', label:'10% OFF' },
+    { discount:10, condition:'Any purchase', emoji:'😊', label:'10% OFF' },
+    { discount:10, condition:'Any purchase', emoji:'😊', label:'10% OFF' }
   ];
 
   // ============================================
@@ -443,10 +443,13 @@
   const resultContainer = document.getElementById('resultContainer');
   const restartBtn = document.getElementById('restartBtn');
   const finalWaBtn = document.getElementById('finalWaBtn');
-  const loginNote  = document.getElementById('loginNote');
 
+  // ============================================
+  // STATE
+  // ============================================
   let gamePlayed = false;
   let currentOffer = null;
+  let currentCoupon = '';   // ek hi coupon — panel aur whatsapp dono mein
 
   // ============================================
   // SCREEN HELPERS
@@ -497,19 +500,16 @@
     const name = nameInput.value.trim();
     const phone = phoneInput.value.trim();
 
-    // Validate name
     if (name.length < 2){
       nameInput.classList.add('error');
       setTimeout(()=> nameInput.classList.remove('error'), 500);
       return;
     }
-    // Validate phone
     if (!/^\d{10}$/.test(phone)){
       phoneInput.classList.add('error');
       setTimeout(()=> phoneInput.classList.remove('error'), 500);
       return;
     }
-    // Check if already used
     if (isPhoneUsed(phone)){
       phoneInput.classList.add('error');
       setTimeout(()=> phoneInput.classList.remove('error'), 500);
@@ -517,20 +517,15 @@
       return;
     }
 
-    // Mark as used
     markPhoneUsed(phone);
-
-    // Show display name
     displayName.textContent = name;
 
-    // Reset game
     gamePlayed = false;
+    currentOffer = null;
+    currentCoupon = '';
     resultContainer.innerHTML = '';
 
-    // Setup grid
     setupGrid();
-
-    // Show game screen
     showScreen(screenGame);
   });
 
@@ -546,7 +541,6 @@
   // SETUP GRID
   // ============================================
   function setupGrid(){
-    // Shuffle offers
     const shuffled = [...OFFERS];
     for (let i=shuffled.length-1;i>0;i--){
       const j = Math.floor(Math.random()*(i+1));
@@ -554,7 +548,7 @@
     }
 
     grid.innerHTML = '';
-    shuffled.forEach((offer, idx) => {
+    shuffled.forEach((offer) => {
       const box = document.createElement('div');
       box.className = 'box';
       box.innerHTML = '<span class="box-icon">🎁</span>';
@@ -574,55 +568,59 @@
     boxEl.classList.add('opened', 'win');
     boxEl.querySelector('.box-icon').textContent = offer.emoji;
 
-    // Show result panel
+    // Coupon ek hi baar generate karo
+    currentCoupon = generateCoupon(offer.discount);
+
     showResult(offer);
-
-    // Confetti
     fireConfetti();
-
-    // After 3 sec, go to final screen
-    setTimeout(() => {
-      goToFinal(offer);
-    }, 3200);
   }
 
   // ============================================
-  // SHOW RESULT PANEL
+  // SHOW RESULT PANEL (with Continue button)
   // ============================================
   function showResult(offer){
-    const coupon = generateCoupon(offer.discount);
-
     const panel = document.createElement('div');
     panel.className = 'result win-card';
     panel.innerHTML = `
       <div class="emoji">${offer.emoji}</div>
       <div class="r-title">Congratulations!</div>
       <div class="r-msg">
-        You won <span class="hl">${offer.label}</span> on any product above <span class="hl">${offer.condition}</span>!
+        You won <span class="hl">${offer.label}</span> on any product <span class="hl">${offer.condition}</span>!
       </div>
       <div class="coupon-box">
         <div class="coupon-label">Your Coupon Code</div>
-        <div class="coupon-code">${coupon}</div>
+        <div class="coupon-code">${currentCoupon}</div>
       </div>
-      <div style="font-size:0.8rem; margin-top:10px; color:#7B1FA2; font-weight:600;">
-        📸 Screenshot lo aur WhatsApp par bhejo: <strong>${CONFIG.WHATSAPP}</strong>
+      <div class="screenshot-reminder">
+        📸 Pehle coupon ka screenshot lo!
+        <br><span>Phir niche Continue dabao</span>
       </div>
-      <div style="font-size:0.75rem; margin-top:6px; color:#C2185B;">
-        ⏰ Coupon 7 din tak valid hai
-      </div>
+      <button class="btn" id="continueBtn" style="margin-top:16px;">
+        <span class="icon">➡️</span>
+        CONTINUE
+      </button>
     `;
     resultContainer.appendChild(panel);
+
+    // Continue button → final screen
+    document.getElementById('continueBtn').addEventListener('click', () => {
+      goToFinal(offer);
+    });
   }
 
   // ============================================
   // GO TO FINAL SCREEN
   // ============================================
   function goToFinal(offer){
-    const coupon = generateCoupon(offer.discount);
-    const message = `Hi ${CONFIG.BUSINESS}! 🪔\n\nMain Diwali Lucky Draw khel chuki hoon.\n\nNaam: ${displayName.textContent}\nOffer: ${offer.label} (${offer.condition})\nCoupon Code: ${coupon}\n\nPlease mera order confirm karein. Thank you!`;
+    const message =
+      `Hi ${CONFIG.BUSINESS}! 🪔\n\n` +
+      `Main Diwali Lucky Draw khel chuki hoon.\n\n` +
+      `Naam: ${displayName.textContent}\n` +
+      `Offer: ${offer.label} (${offer.condition})\n` +
+      `Coupon Code: ${currentCoupon}\n\n` +
+      `Please mera order confirm karein. Thank you!`;
 
     finalWaBtn.href = `https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent(message)}`;
-
     showScreen(screenFinal);
     fireConfetti();
   }
@@ -635,6 +633,7 @@
     phoneInput.value = '';
     gamePlayed = false;
     currentOffer = null;
+    currentCoupon = '';
     resultContainer.innerHTML = '';
     showScreen(screenLogin);
   });
